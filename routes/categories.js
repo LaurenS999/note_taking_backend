@@ -65,6 +65,8 @@ router.put('/:id', (req, res) => {
 
 //Delete Categories
 router.delete('/:id', (req, res) => {
+  const { id } = req.params;
+
   //Cek Apakah ada notes yang masih menggunakan kategori.
   const [notes] = db.query('SELECT * FROM notes WHERE category_id = ?', [id]);
   if (notes.length > 0) {
@@ -73,10 +75,9 @@ router.delete('/:id', (req, res) => {
     });
   }
 
-
   db.query(
     'DELETE FROM categories WHERE id=?',
-    [req.params.id],
+    [id],
     (err,result) => {
       if (err) 
       {
