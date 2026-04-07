@@ -6,7 +6,7 @@ const cors = require('cors');
 
 //Connect ke Frontend
 app.use(cors({
-  origin: "http://localhost:3000"
+    origin: "https://lauren-note-taking-app.netlify.app/"
 }));
 
 //Middleware
