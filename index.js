@@ -6,8 +6,14 @@ const cors = require('cors');
 
 //Connect ke Frontend
 app.use(cors({
-  origin: "https://lauren-note-taking-app.netlify.app/"
+  origin: [
+    "https://lauren-note-taking-app.netlify.app",
+    "https://lauren-note-taking-app.netlify.app/"
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
 }));
+
 
 //Middleware
 app.use(express.json());
