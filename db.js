@@ -1,4 +1,4 @@
-require('dotenv').config();
+const mysql = require("mysql2");
 
 //Buat Pool (Lebih stabil untuk Railway)
 const db = mysql.createPool(process.env.MYSQL_URL);
