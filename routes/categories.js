@@ -63,33 +63,36 @@ router.put('/:id', (req, res) => {
 });
 
 
-//Delete Categories
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
 
-  //Cek Apakah ada notes yang masih menggunakan kategori.
-  const [notes] = db.query('SELECT * FROM notes WHERE category_id = ?', [id]);
-  if (notes.length > 0) {
-    return res.status(400).json({ 
-      message: "Gagal menghapus! Kategori ini masih memiliki catatan (notes) yang terhubung." 
-    });
-  }
-
-  db.query(
-    'DELETE FROM categories WHERE id=?',
-    [id],
-    (err,result) => {
-      if (err) 
-      {
-        return res.status(500).json({ error: err.message });
-      }
-      if (result.affectedRows === 0)
-      {
-        return res.status(404).json({erro: 'Kategori tidak ditemukan'});
-      }
-      res.json({ message: 'Kategori behasil dihapus', id:req.params.id});
+  //Cek apakah ada notes yang menggunakan categories
+  db.query('SELECT id FROM notes WHERE categories_id = ? LIMIT 1', [id], (err, notes) => {
+    if (err) {
+      return res.status(500).json({ error: "Gagal mengecek data: " + err.message });
     }
-  );
+
+    //Validasi
+    if (notes.length > 0) {
+      return res.status(400).json({ 
+        message: "Gagal menghapus! Kategori ini masih memiliki catatan (notes) yang terhubung." 
+      });
+    }
+
+    //jika tidak ada maka hapus categories
+    db.query('DELETE FROM categories WHERE id = ?', [id], (err, result) => {
+      if (err) {
+        return res.status(500).json({ error: "Gagal menghapus kategori: " + err.message });
+      }
+
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ message: 'Kategori tidak ditemukan' });
+      }
+
+      // Kirim respon sukses terakhir
+      res.json({ message: 'Kategori berhasil dihapus', id });
+    });
+  });
 });
 
 module.exports = router;
