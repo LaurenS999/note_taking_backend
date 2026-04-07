@@ -6,13 +6,13 @@ const cors = require('cors');
 
 //Connect ke Frontend
 app.use(cors({
-    origin: "https://lauren-note-taking-app.netlify.app/"
+  origin: "https://lauren-note-taking-app.netlify.app/"
 }));
 
 //Middleware
 app.use(express.json());
 
-//Register routes for CRUD operations
+//Create Route to CRUD
 const notesRoutes = require('./routes/notes');
 app.use('/notes', notesRoutes);
 const categoriesRoutes = require('./routes/categories');
