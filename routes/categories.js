@@ -46,8 +46,8 @@ router.put('/:id', (req, res) => {
   const { name, code_color } = req.body;
 
   db.query(
-    'UPDATE categories SET name=?, code_color=?, updated_at=? WHERE id=?',
-    [name, code_color, Date.now(), req.params.id],
+    'UPDATE categories SET name=?, code_color=?, updated_at=NOW() WHERE id=?',
+    [name, code_color, req.params.id],
     (err, result) => {
       if (err) 
         {
