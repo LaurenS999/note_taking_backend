@@ -7,8 +7,8 @@ const cors = require('cors');
 //Connect ke Frontend
 app.use(cors({
   origin: [
-    "https://lauren-note-taking-app.netlify.app",
-    "https://lauren-note-taking-app.netlify.app/"
+    process.env.APP_ORIGIN,
+    process.env.APP_ORIGIN,"/",
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
